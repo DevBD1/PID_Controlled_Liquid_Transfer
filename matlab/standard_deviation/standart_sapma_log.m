@@ -31,7 +31,7 @@ for i = 1:n
         raw = readline(s);
         value = str2double(strtrim(raw)) * 10;  % cm → mm
         if isnan(value) || value < 10 || value > 300
-            warning("⚠Geçersiz değer: %s", raw);
+            warning("Geçersiz değer: %s", raw);
             continue;
         end
         fprintf(f, "%.2f\n", value);
