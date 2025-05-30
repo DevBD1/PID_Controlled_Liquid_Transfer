@@ -22,7 +22,7 @@ L298N | H BRIDGE | ENA | D10 (PWM) | UNO
 Using Arduino IDE, upload the arduino/script.ino file to your card
 
 # Step-3
-- Run [matlab/standard_deviation/log_dynamic.m](https://github.com/DevBD1/PID_Controlled_Liquid_Transfer/blob/main/matlab/standard_deviation/log_dynamic.m) script
+- Run [matlab/standard_deviation/log_realistic.m](https://github.com/DevBD1/PID_Controlled_Liquid_Transfer/blob/main/matlab/standard_deviation/log_realistic.m) script
 - Input the direction of the pump for test
 - Input the repeat count
 - Check the generated .csv file 
