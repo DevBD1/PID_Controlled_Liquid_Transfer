@@ -19,7 +19,7 @@ L298N | H BRIDGE | ENA | D10 (PWM) | UNO
 
 
 # Step-2
-Using Arduino IDE, upload the arduino/script.ino file to your card
+Using Arduino IDE, upload the [arduino/transfer_serial.ino](https://github.com/DevBD1/PID_Controlled_Liquid_Transfer/blob/main/arduino/transfer_serial.ino) file to your card
 
 # Step-3
 - Run [matlab/standard_deviation/log_realistic.m](https://github.com/DevBD1/PID_Controlled_Liquid_Transfer/blob/main/matlab/standard_deviation/log_realistic.m) script
