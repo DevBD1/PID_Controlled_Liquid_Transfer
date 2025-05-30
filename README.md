@@ -23,8 +23,8 @@ This PID controller ensures that the liquid level in Reservoir B remains stable 
 # ✅ Requirements
 
 #### Software
-- [GNU Octave](https://www.gnu.org/software/octave/) (Tested on version X.X.X)
-- [Arduino IDE](https://www.arduino.cc/en/software)
+- [GNU Octave](https://www.gnu.org/software/octave/) (Tested on version 10 (2025-03-25))
+- [Arduino IDE](https://www.arduino.cc/en/software) (Tested on version 1.8.19 (Store 1.8.57.0))
 - USB connection to Arduino board (Uno, Nano, etc.)
 - `instrument-control` package for Octave
 
