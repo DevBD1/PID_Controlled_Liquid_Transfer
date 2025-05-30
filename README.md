@@ -18,6 +18,7 @@ u(t) = Kp * e(t) + Ki * ∫e(t)dt + Kd * de(t)/dt
 - ```u(t)``` is the output used to determine the pump’s direction and speed (via PWM)
 
 This PID controller ensures that the liquid level in Reservoir B remains stable despite disturbances or changes in system dynamics.
+
 ---
 # ✅ Requirements
 
