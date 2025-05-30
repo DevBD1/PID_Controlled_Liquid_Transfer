@@ -32,4 +32,4 @@ Using Arduino IDE, upload the [arduino/transfer_serial.ino](https://github.com/D
 - Check the generated pid_tolerance.mat file
 
 # Step-4
-Run matlab/pid_control_serialport.m
+Run [matlab/pid_control_serialport_mapped.m](https://github.com/DevBD1/PID_Controlled_Liquid_Transfer/blob/main/matlab/pid_control_serialport_mapped.m)
