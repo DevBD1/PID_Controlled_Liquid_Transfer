@@ -1,5 +1,5 @@
-#define TRIG_PIN 7
-#define ECHO_PIN 6
+#define TRIG_PIN 6
+#define ECHO_PIN 7
 #define IN1 8
 #define IN2 9
 #define ENA 10
