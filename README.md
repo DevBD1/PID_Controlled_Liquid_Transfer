@@ -41,8 +41,8 @@ Here is the connection map of the system:
 
 COMPONENT | DESCRIPTION | COMPONENT PIN | CARD PIN | CARD
 --- | --- | --- | --- | ---
-HC-SR04 | Ultrasonic Sound Sensor | TRIG | D7 | UNO
-HC-SR04 | Ultrasonic Sound Sensor | ECHO | D6 | UNO
+HC-SR04 | Ultrasonic Sound Sensor | TRIG | D6 | UNO
+HC-SR04 | Ultrasonic Sound Sensor | ECHO | D7 | UNO
 L298N | H BRIDGE | IN1 | D8 | UNO
 L298N | H BRIDGE | IN2 | D9 | UNO
 L298N | H BRIDGE | ENA | D10 (PWM) | UNO
