@@ -4,7 +4,7 @@ pkg load instrument-control;
 s = serialport("COM3", 9600);
 s.Timeout = 2;
 pause(2);
-disp("✅ COM3 bağlantısı kuruldu.");
+disp("COM3 bağlantısı kuruldu.");
 
 % --- Ölçüm sayısı kullanıcıdan alınır ---
 n = input("Kaç adet ölçüm alınsın? ");
