@@ -14,7 +14,7 @@ base_filename = "standart_sapma.csv";
 filename = base_filename;
 counter = 2;
 while exist(filename, "file")
-    filename = sprintf("standart_sapma-%d.csv", counter);
+    filename = sprintf("log_static-%d.csv", counter);
     counter += 1;
 end
 
