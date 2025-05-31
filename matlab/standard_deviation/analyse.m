@@ -1,9 +1,9 @@
 % --- Kullanıcıdan analiz edilecek dosya ismini al ---
-filename = input("📂 Lütfen analiz edilecek CSV dosyasının adını giriniz (örnek: standart_sapma.csv): ", "s");
+filename = input("Lütfen analiz edilecek CSV dosyasının adını giriniz (örnek: log_realistic_1.csv): ", "s");
 
 % --- Dosya kontrolü ---
 if ~exist(filename, "file")
-    error("❌ Dosya bulunamadı: %s", filename);
+    error("Dosya bulunamadı: %s", filename);
 end
 
 % --- Veriyi oku ve temizle ---
@@ -23,7 +23,7 @@ tolerance_mm = std_val;
 save("pid_tolerance.mat", "tolerance_mm");
 
 % --- Sonuçları yazdır ---
-fprintf("\n📊 ANALİZ SONUÇLARI (%s için):\n", filename);
+fprintf("\nANALİZ SONUÇLARI (%s için):\n", filename);
 fprintf("• Ölçüm Sayısı        : %d\n", length(data));
 fprintf("• Ortalama Mesafe     : %.2f mm\n", mean_val);
 fprintf("• Maksimum Sapma      : %.2f mm\n", max_dev);
