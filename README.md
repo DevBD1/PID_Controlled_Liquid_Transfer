@@ -114,3 +114,7 @@ Kd = 20;
 s = serialport("COM3", 9600);  % Change if needed
 ```
 
+# 🧪 Other Scripts
+
+Fill or Empty -> dir: [.../matlab/fill_or_empty.m](https://github.com/DevBD1/PID_Controlled_Liquid_Transfer/blob/main/matlab/fill_or_empty.m)
+Stop -> dir: [.../matlab/stop.m](https://github.com/DevBD1/PID_Controlled_Liquid_Transfer/blob/main/matlab/stop.m)
