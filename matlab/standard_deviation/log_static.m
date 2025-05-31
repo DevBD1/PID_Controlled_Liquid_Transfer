@@ -10,11 +10,11 @@ disp("COM3 bağlantısı kuruldu.");
 n = input("Kaç adet ölçüm alınsın? ");
 
 % --- Dosya adı çakışma kontrolü ---
-base_filename = "standart_sapma.csv";
+base_filename = "log_static.csv";
 filename = base_filename;
 counter = 2;
 while exist(filename, "file")
-    filename = sprintf("log_static-%d.csv", counter);
+    filename = sprintf("log_static_%d.csv", counter);
     counter += 1;
 end
 
