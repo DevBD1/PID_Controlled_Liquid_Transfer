@@ -8,7 +8,7 @@ pause(2);
 disp("✅ COM3 bağlantısı kuruldu.");
 
 % --- Fiziksel ölçüler ---
-sensor_height_mm = 140;  % sensör yüksekliği, kap bosken yapilan olcum sonucu
+sensor_height_mm = 135;  % sensör yüksekliği, kap bosken yapilan olcum sonucu
 max_liquid_mm = 100;     % maksimum sıvı seviyesi
 
 % --- İlk ölçüm ---
@@ -43,7 +43,7 @@ end
 fprintf("📐 Hedef Sıvı Seviyesi: %.2f mm (+/- %.2f mm)\n", target, tolerance_mm);
 
 % --- PID sabitleri ---
-Kp = 40; Ki = 0.5; Kd = 20;
+Kp = 10; Ki = 0.3; Kd = 5;;
 integral = 0;
 prev_err  = 0;
 prev_time = time();
@@ -101,13 +101,26 @@ unwind_protect
             cmd = "S000";
             status = "Denge (Stop)";
             pwm = 0;
-        elseif output > 0
-          cmd = sprintf("R%03d", pwm);  % Tahliye
-          status = "Tahliye (B->A)";
         else
-          cmd = sprintf("F%03d", pwm);  % Dolum
-          status = "Dolum (A->B)";
+          raw_output = abs(output);
+          clipped = min(raw_output, outputMax);
+          pwm_mapped = round((clipped / outputMax) * MAX_PWM);  % 0–255 arası
+
+        % Sadece anlamlı PWM değerlerini kullanalım
+        if pwm_mapped < MIN_PWM
+            pwm = 0;
+        else
+            pwm = pwm_mapped;
         end
+
+        if output > 0
+            cmd = sprintf("R%03d", pwm);
+            status = "Tahliye (B->A)";
+        else
+            cmd = sprintf("F%03d", pwm);
+            status = "Dolum (A->B)";
+        end
+    end
 
         writeline(s, cmd);
         printf("Seviye: %.2f mm | Durum: %s | Komut: %s\n", level_mm, status, cmd);
