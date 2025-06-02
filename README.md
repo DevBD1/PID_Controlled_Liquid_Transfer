@@ -1,3 +1,5 @@
+YouTube Video: https://www.youtube.com/watch?v=1OjPXJKbuPw
+
 # Introduction
 
 This project involves **two liquid-filled reservoirs**, labeled **A and B**. Reservoir A serves as a supply tank, and its liquid level is not critical. Reservoir B, however, requires a stable liquid level, which is the primary control objective. An ultrasonic distance sensor is mounted vertically above Reservoir B to measure the liquid depth, providing distance readings denoted as x₁. A **peristaltic liquid pump** connects the two reservoirs. The pump's role is to transfer excess liquid from Reservoir B to Reservoir A or to draw liquid from Reservoir A to replenish Reservoir B, depending on the measured liquid level.
