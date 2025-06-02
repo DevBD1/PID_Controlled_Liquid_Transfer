@@ -8,7 +8,8 @@ pause(2);
 disp("✅ COM3 bağlantısı kuruldu.");
 
 % --- İlk ölçüm ---
-writeline(s, "F128");   % Komutu gönder
+flush(s);               % Buffer temizle
+writeline(s, "M");   % Komutu gönder
 pause(0.05);            % Cevap için bekle
 
 try
@@ -44,7 +45,7 @@ prev_err  = 0;
 prev_time = time();
 
 % --- PWM sınırları ---
-MIN_PWM = 128;
+MIN_PWM = 96;
 MAX_PWM = 255;
 outputMax = 100;  % PID çıkışının maksimum beklenen değeri
 
