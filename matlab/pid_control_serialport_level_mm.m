@@ -2,10 +2,11 @@
 pkg load instrument-control;
 
 % --- Seri port bağlantısı ---
-s = serialport("COM3", 9600);
+s = serialport("/dev/tty.usbserial-10", 9600);
+% s = serialport("COM3", 9600);
 s.Timeout = 1;  % saniye cinsinden
 pause(2);
-disp("✅ COM3 bağlantısı kuruldu.");
+disp("✅ USB bağlantısı kuruldu.");
 
 % --- Fiziksel ölçüler ---
 sensor_height_mm = 135;  % sensör yüksekliği, kap bosken yapilan olcum sonucu
@@ -20,7 +21,7 @@ try
     fprintf("📥 Gelen veri: %s\n", mesafe_raw);
 
     distance_cm = str2double(strtrim(mesafe_raw));
-    distance_mm = distance_cm * 10;  % düzeltme burada
+    distance_mm = distance_cm * 10;  
     level_mm = sensor_height_mm - distance_mm;
     fprintf("📏 İlk Ölçüm: %.2f mm | Sıvı Seviyesi: %.2f mm\n", distance_mm, level_mm);
 catch
@@ -43,7 +44,7 @@ end
 fprintf("📐 Hedef Sıvı Seviyesi: %.2f mm (+/- %.2f mm)\n", target, tolerance_mm);
 
 % --- PID sabitleri ---
-Kp = 10; Ki = 0.3; Kd = 5;;
+Kp = 10; Ki = 0.2; Kd = 5;;
 integral = 0;
 prev_err  = 0;
 prev_time = time();
