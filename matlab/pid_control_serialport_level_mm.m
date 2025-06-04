@@ -1,16 +1,22 @@
 % PID kontrol Octave tarafında yapılır
 pkg load instrument-control;
 
+% --- Fonksiyon: güvenli zaman damgası üretici ---
+function ts = current_time_string()
+  t = localtime(time());
+  ts = sprintf("%02d:%02d:%02d", t.hour, t.min, floor(t.sec));
+end
+
 % --- Seri port bağlantısı ---
 s = serialport("/dev/tty.usbserial-10", 9600);
 % s = serialport("COM3", 9600);
-s.Timeout = 1;  % saniye cinsinden
+s.Timeout = 1;
 pause(2);
 disp("✅ USB bağlantısı kuruldu.");
 
 % --- Fiziksel ölçüler ---
-sensor_height_mm = 135;  % sensör yüksekliği, kap bosken yapilan olcum sonucu
-max_liquid_mm = 100;     % maksimum sıvı seviyesi
+sensor_height_mm = 135;
+max_liquid_mm = 100;
 
 % --- İlk ölçüm ---
 writeline(s, "M");
@@ -21,7 +27,7 @@ try
     fprintf("📥 Gelen veri: %s\n", mesafe_raw);
 
     distance_cm = str2double(strtrim(mesafe_raw));
-    distance_mm = distance_cm * 10;  
+    distance_mm = distance_cm * 10;
     level_mm = sensor_height_mm - distance_mm;
     fprintf("📏 İlk Ölçüm: %.2f mm | Sıvı Seviyesi: %.2f mm\n", distance_mm, level_mm);
 catch
@@ -32,7 +38,7 @@ end
 % --- Hedef seviye kullanıcıdan alınır ---
 target = input("🎯 Lütfen hedef sıvı seviyesini mm cinsinden giriniz: ");
 
-% PID toleransını dosyadan oku
+% --- PID toleransı ---
 if exist("pid_tolerance.mat", "file")
     load("pid_tolerance.mat", "tolerance_mm");
     fprintf("🔧 PID toleransı dosyadan yüklendi: ±%.2f mm\n", tolerance_mm);
@@ -40,11 +46,10 @@ else
     warning("⚠️ Tolerans dosyası bulunamadı, varsayılan değer kullanılacak.");
     tolerance_mm = target * 0.05;
 end
-
 fprintf("📐 Hedef Sıvı Seviyesi: %.2f mm (+/- %.2f mm)\n", target, tolerance_mm);
 
 % --- PID sabitleri ---
-Kp = 10; Ki = 0.2; Kd = 5;;
+Kp = 10; Ki = 0.2; Kd = 5;
 integral = 0;
 prev_err  = 0;
 prev_time = time();
@@ -72,13 +77,7 @@ unwind_protect
         distance_mm = distance_cm * 10;
         level_mm = sensor_height_mm - distance_mm;
 
-        if isnan(distance_cm)
-            writeline(s, "S000");
-            pause(0.5);
-            continue;
-        end
-
-        if distance_mm < 20 || distance_mm > 300
+        if isnan(distance_cm) || distance_mm < 20 || distance_mm > 300
             writeline(s, "S000");
             pause(0.5);
             continue;
@@ -96,36 +95,30 @@ unwind_protect
 
         raw_output = abs(output);
         clipped = min(raw_output, outputMax);
-        pwm = round((clipped / outputMax) * (MAX_PWM - MIN_PWM) + MIN_PWM);
+        pwm_mapped = round((clipped / outputMax) * MAX_PWM);
 
-        if abs(err) <= tolerance_mm
-            cmd = "S000";
-            status = "Denge (Stop)";
-            pwm = 0;
-        else
-          raw_output = abs(output);
-          clipped = min(raw_output, outputMax);
-          pwm_mapped = round((clipped / outputMax) * MAX_PWM);  % 0–255 arası
-
-        % Sadece anlamlı PWM değerlerini kullanalım
         if pwm_mapped < MIN_PWM
             pwm = 0;
         else
             pwm = pwm_mapped;
         end
 
-        if output > 0
+        if abs(err) <= tolerance_mm
+            cmd = "S000";
+            status = "Denge (Stop)";
+            pwm = 0;
+        elseif output > 0
             cmd = sprintf("R%03d", pwm);
             status = "Tahliye (B->A)";
         else
             cmd = sprintf("F%03d", pwm);
             status = "Dolum (A->B)";
         end
-    end
 
         writeline(s, cmd);
         printf("Seviye: %.2f mm | Durum: %s | Komut: %s\n", level_mm, status, cmd);
-        fprintf(log_file, "%s,%.2f,%.2f,%s,%d,%s\n", datestr(now, "HH:MM:SS"), distance_mm, level_mm, status, pwm, cmd);
+        fprintf(log_file, "%s,%.2f,%.2f,%s,%d,%s\n", ...
+                current_time_string(), distance_mm, level_mm, status, pwm, cmd);
 
         pause(0.5);
     catch pid_err
